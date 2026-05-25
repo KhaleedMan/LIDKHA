@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import './LoginModal.css';
 import { countries } from './countries';
@@ -32,13 +33,19 @@ export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
   const [countrySearch, setCountrySearch] = useState('');
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const countryRef = useRef(null);
+
+  const countryObjects = countries.map(name => ({ name }));
 
   useEffect(() => {
     if (isCountryDropdownOpen) {
-      setFilteredCountries(
-        countries.filter(c => c.toLowerCase().includes(countrySearch.toLowerCase()))
+      const searchLower = countrySearch.toLowerCase();
+      const results = countryObjects.filter(c => 
+        c.name.toLowerCase().includes(searchLower)
       );
+      setFilteredCountries(results);
+      setHighlightedIndex(-1);
     } else {
       setFilteredCountries([]);
     }
@@ -54,11 +61,32 @@ export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleCountrySelect = (country) => {
-    setFormData(prev => ({ ...prev, country }));
-    setCountrySearch(country);
+  const handleCountrySelect = (countryName) => {
+    setFormData(prev => ({ ...prev, country: countryName }));
+    setCountrySearch(countryName);
     setIsCountryDropdownOpen(false);
   }
+
+  const handleCountryKeyDown = (e) => {
+    if (isCountryDropdownOpen) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setHighlightedIndex(prev => 
+          prev < filteredCountries.length - 1 ? prev + 1 : prev
+        );
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setHighlightedIndex(prev => (prev > 0 ? prev - 1 : 0));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (highlightedIndex >= 0 && filteredCountries[highlightedIndex]) {
+          handleCountrySelect(filteredCountries[highlightedIndex].name);
+        }
+      } else if (e.key === 'Escape') {
+        setIsCountryDropdownOpen(false);
+      }
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -80,43 +108,24 @@ export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-    let result;
+
     if (mode === 'signup') {
       if (!formData.agreedToTerms) return setError('You must agree to the terms to sign up.');
       if (formData.password.length < 8) return setError('Password must be at least 8 characters.');
       if (!formData.country) return setError('Please select your country.');
-      result = onSignUp(formData);
-
-      if (result && result.error === 'An account with this email already exists.') {
-        setError('An account with this email already exists. Please log in.');
-        setMode('login');
-        setFormData(prev => ({
-          ...prev,
-          identifier: prev.email,
-          password: '',
-        }));
-      } else if (result && result.error) {
-        setError(result.error);
-      } else if (!result.error) {
-        onClose();
-      }
+      onSignUp(formData).catch(err => setError(err.message));
     } else {
       if (!formData.identifier || !formData.password) return setError('Please enter your credentials.');
-      result = onLogin(formData);
-      if (result && result.error) {
-        setError(result.error);
-      } else if (!result.error) {
-        onClose();
-      }
+      onLogin(formData).catch(err => setError(err.message));
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>×</button>
+    <div className="modal-overlay" onMouseDown={onClose}>
+      <div className="modal-content" onMouseDown={(e) => e.stopPropagation()}>
+        <button className="close-btn" onClick={onClose}>&times;</button>
         <div className="modal-header">
           <h2>{mode === 'signup' ? 'Get started with SKILWHOP' : 'Log in to SKILWHOP'}</h2>
           <p>{mode === 'signup' ? 'Create your account' : 'Welcome back!'}</p>
@@ -151,15 +160,15 @@ export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
           {mode === 'signup' && (
             <>
               <div className="form-row">
-                <div className="form-group" ref={countryRef}>
+                <div className="form-group country-selector" ref={countryRef}>
                   <label htmlFor="country">Country</label>
-                  <input type="text" id="country" name="country-search" value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} onFocus={() => setIsCountryDropdownOpen(true)} placeholder="Your country" autoComplete="off"/>
+                  <input type="text" id="country" value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} onFocus={() => setIsCountryDropdownOpen(true)} onKeyDown={handleCountryKeyDown} placeholder="Your country" autoComplete="off"/>
                   {isCountryDropdownOpen && (
                     <ul className="country-dropdown">
                       {filteredCountries.length > 0 ? (
-                        filteredCountries.map(country => (
-                          <li key={country} onClick={() => handleCountrySelect(country)}>
-                            {country}
+                        filteredCountries.map((country, index) => (
+                          <li key={country.name} className={highlightedIndex === index ? 'selected' : ''} onClick={() => handleCountrySelect(country.name)} onMouseOver={() => setHighlightedIndex(index)}>
+                            {country.name}
                           </li>
                         ))
                       ) : ( <li>No country found</li> )}
