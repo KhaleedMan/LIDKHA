@@ -6,7 +6,7 @@ export default function ChatSection() {
   const [messages, setMessages] = useState([
     {
       type: 'bot',
-      text: 'Hi! 👋 Welcome to LIDKHA. How can we help you today?'
+      text: 'Hi! 👋 Welcome to SKILWHOP. How can we help you today?'
     }
   ])
   const [input, setInput] = useState('')
@@ -49,7 +49,7 @@ export default function ChatSection() {
       {isOpen && (
         <div className="chat-widget">
           <div className="chat-header">
-            <h3>LIDKHA Support</h3>
+            <h3>SKILWHOP Support</h3>
             <button
               className="chat-close"
               onClick={() => setIsOpen(false)}

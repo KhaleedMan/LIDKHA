@@ -1,25 +1,25 @@
-# Firebase Hosting Setup Guide for LIDKHA
+# Firebase Hosting Setup Guide for SKILWHOP
 
 ## Overview
-This guide walks you through deploying your LIDKHA React app to Firebase Hosting with your custom domain (lidkha.com.ng).
+This guide walks you through deploying your SKILWHOP React app to Firebase Hosting with your custom domain (skilwhop.com.ng).
 
 ## Prerequisites
 - Firebase CLI installed globally (`npm install -g firebase-tools`)
 - A Firebase project created at https://console.firebase.google.com
-- Your domain (lidkha.com.ng) registered
+- Your domain (skilwhop.com.ng) registered
 
 ## Step 1: Create Firebase Project
 
 1. Go to https://console.firebase.google.com
 2. Click "Add project"
-3. Enter project name: `lidkha-learning-platform`
+3. Enter project name: `skilwhop-learning-platform`
 4. Continue through the setup wizard
 5. Enable Google Analytics (optional)
 6. Create the project
 
 ## Step 2: Initialize Firebase in Your Project
 
-Run in the root directory (C:\Users\HP\LIDKHA):
+Run in the root directory (C:\Users\HP\SKILWHOP):
 
 ```bash
 firebase login
@@ -28,7 +28,7 @@ firebase init
 
 When prompted:
 - Select: Hosting, Storage
-- Choose the `lidkha-learning-platform` project
+- Choose the `skilwhop-learning-platform` project
 - Public directory: `client/dist`
 - Configure as single-page app: Yes
 - GitHub deploys: No (for now)
@@ -48,13 +48,13 @@ This creates the `dist` folder that will be deployed.
 firebase deploy
 ```
 
-After deployment, you'll get a Firebase URL like: `https://lidkha-learning-platform.web.app`
+After deployment, you'll get a Firebase URL like: `https://skilwhop-learning-platform.web.app`
 
-## Step 5: Connect Custom Domain (lidkha.com.ng)
+## Step 5: Connect Custom Domain (skilwhop.com.ng)
 
 1. In Firebase Console, go to Hosting
 2. Click "Connect domain"
-3. Enter: `lidkha.com.ng`
+3. Enter: `skilwhop.com.ng`
 4. Follow DNS configuration steps:
    - Add the TXT record for verification
    - Add the A records pointing to Firebase IP

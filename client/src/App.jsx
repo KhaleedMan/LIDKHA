@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import LoginModal from './LoginModal'
 import ChatSection from './ChatSection'
 import AboutPage from './AboutPage'
-import StudentDashboard from './StudentDashboard'
 import CourseDetail from './CourseDetail'
 import AdminDashboard from './AdminDashboard'
+import NewHomepage from './NewHomepage'
+import logo from './assets/logo.png.png';
 
 const features = [
   {
@@ -61,8 +62,32 @@ export default function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [user, setUser] = useState(null)
   const [selectedCourseId, setSelectedCourseId] = useState(null)
+  const [registeredUsers, setRegisteredUsers] = useState([]);
+  const [courses, setCourses] = useState([
+    {
+      id: 1,
+      title: 'Make Money with Facebook & WhatsApp',
+      author: 'SIRKHALIDMAN',
+      lessons: [
+        { id: 1, title: 'Getting Started with Zero Followers', videoUrl: null, duration: '12 min' },
+        { id: 2, title: 'Setting Up Your Facebook Profile', videoUrl: null, duration: '15 min' },
+        { id: 3, title: 'Facebook Marketplace Basics', videoUrl: null, duration: '18 min' },
+        { id: 4, title: 'WhatsApp Business Setup', videoUrl: null, duration: '14 min' },
+        { id: 5, title: 'First Sales Strategy', videoUrl: null, duration: '20 min' },
+        { id: 6, title: 'Scaling Your Income', videoUrl: null, duration: '16 min' }
+      ]
+    }
+  ]);
 
-  const adminEmails = ['creator@lidkha.com.ng', 'admin@lidkha.com.ng']
+  const adminEmails = ['creator@skilwhop.com.ng', 'admin@skilwhop.com.ng', 'khalidhussainadam1@gmail.com']
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref) {
+      localStorage.setItem('referrer', ref);
+    }
+  }, []);
 
   const handleAdminAccess = () => {
     if (user?.isAdmin) {
@@ -72,18 +97,44 @@ export default function App() {
   }
 
   const handleSignUp = (formData) => {
-    const normalizedEmail = formData.email.trim().toLowerCase()
-    setUser({
+    const normalizedEmail = formData.email.trim().toLowerCase();
+    if (registeredUsers.some(u => u.email === normalizedEmail)) {
+      return { error: 'An account with this email already exists.' };
+    }
+
+    const referrer = localStorage.getItem('referrer');
+
+    const newUser = {
       ...formData,
       email: normalizedEmail,
       isAdmin: adminEmails.includes(normalizedEmail),
-    })
-    setIsLoginOpen(false)
-    setCurrentView('dashboard')
-    setTimeout(() => {
-      window.scrollTo(0, 0)
-    }, 100)
+      isVerified: adminEmails.includes(normalizedEmail),
+      referrer: referrer,
+    };
+    setRegisteredUsers(prev => [...prev, newUser]);
+    setUser(newUser);
+    setIsLoginOpen(false);
+    setCurrentView('dashboard');
+    setTimeout(() => window.scrollTo(0, 0), 100);
+    return {};
   }
+  
+  const handleLogin = (formData) => {
+    const loginIdentifier = formData.identifier.trim().toLowerCase();
+    const userToLogin = registeredUsers.find(
+      u => u.email === loginIdentifier || u.username.toLowerCase() === loginIdentifier
+    );
+
+    if (userToLogin && userToLogin.password === formData.password) {
+      setUser(userToLogin);
+      setIsLoginOpen(false);
+      setCurrentView('dashboard');
+      setTimeout(() => window.scrollTo(0, 0), 100);
+      return {};
+    } else {
+      return { error: 'Invalid credentials. Please try again.' };
+    }
+  };
 
   const handleLogout = () => {
     setUser(null)
@@ -112,20 +163,12 @@ export default function App() {
     window.scrollTo(0, 0)
   }
 
-  // Show different pages based on currentView
   if (currentView === 'about') {
     return <AboutPage onBack={handleBackToLanding} />
   }
 
   if (currentView === 'dashboard' && user) {
-    return (
-      <StudentDashboard 
-        user={user} 
-        onLogout={handleLogout}
-        onCourseClick={handleCourseClick}
-        onAdminAccess={handleAdminAccess}
-      />
-    )
+    return <NewHomepage user={user} onLogout={handleLogout} registeredUsers={registeredUsers} setCurrentView={setCurrentView} setSelectedCourseId={setSelectedCourseId} courses={courses} setCourses={setCourses} />;
   }
 
   if (currentView === 'admin' && user) {
@@ -136,6 +179,10 @@ export default function App() {
           setCurrentView('dashboard')
           window.scrollTo(0, 0)
         }}
+        registeredUsers={registeredUsers}
+        setRegisteredUsers={setRegisteredUsers}
+        courses={courses}
+        setCourses={setCourses}
       />
     )
   }
@@ -146,6 +193,7 @@ export default function App() {
         courseId={selectedCourseId}
         user={user}
         onBack={handleBackToDashboard}
+        courses={courses}
       />
     )
   }
@@ -154,7 +202,10 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <div className="brand">LIDKHA</div>
+        <div className="brand" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={logo} alt="SKILWHOP Logo" style={{ height: '32px', marginRight: '12px' }} />
+          SKILWHOP
+        </div>
         <nav className="site-nav">
           <a href="#home" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); }}>Home</a>
           <a href="#courses" onClick={(e) => { e.preventDefault(); document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' }); }}>Courses</a>
@@ -167,10 +218,10 @@ export default function App() {
       <main>
         <section className="hero" id="home">
           <div className="hero-copy">
-            <span className="eyebrow">Introducing LIDKHA</span>
+            <span className="eyebrow">Introducing SKILWHOP</span>
             <h1>Learn how to make money using your smartphone online.</h1>
             <p>
-              LIDKHA is a platform where you learn practical ways to earn real
+              SKILWHOP is a platform where you learn practical ways to earn real
               income from your phone. Start with proven methods and grow your
               online earnings.
             </p>
@@ -193,7 +244,7 @@ export default function App() {
 
         <section className="section feature-section">
           <div className="section-heading">
-            <h2>What you'll get with LIDKHA</h2>
+            <h2>What you'll get with SKILWHOP</h2>
             <p>Everything you need to start earning from your smartphone today.</p>
           </div>
           <div className="feature-grid">
@@ -250,13 +301,14 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <p>© 2026 LIDKHA — Built for creators who want digital income.</p>
+        <p>© 2026 SKILWHOP — Built for creators who want digital income.</p>
       </footer>
 
       <LoginModal
         isOpen={isLoginOpen}
         onClose={() => setIsLoginOpen(false)}
         onSignUp={handleSignUp}
+        onLogin={handleLogin}
       />
 
       <ChatSection />

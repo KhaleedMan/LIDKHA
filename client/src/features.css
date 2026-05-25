@@ -1,0 +1,49 @@
+.verified-badge {
+  color: #00b894;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.user-management,
+.affiliate-management {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.user-list-header,
+.user-list-item,
+.affiliate-list-header,
+.affiliate-list-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 100px 120px;
+  gap: 15px;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.user-list-header,
+.affiliate-list-header {
+  font-weight: bold;
+  color: #495057;
+}
+
+.user-list-item button {
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.user-list-item button:hover {
+  background-color: #0056b3;
+}
+
+.affiliate-list-item {
+  grid-template-columns: 1fr 1fr 1fr;
+}

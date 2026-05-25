@@ -38,14 +38,14 @@ export default function AboutPage({ onBack }) {
     <div className="about-page">
       <header className="about-header">
         <button className="back-button" onClick={onBack}>← Back</button>
-        <div className="brand">LIDKHA</div>
+        <div className="brand">SKILWHOP</div>
       </header>
 
       <main className="about-main">
         <section className="about-hero">
           <h1>Learn Digital Skills, Build Real Income</h1>
           <p>
-            LIDKHA is a learning platform designed to help you master digital skills 
+            SKILWHOP is a learning platform designed to help you master digital skills 
             and turn them into real income. We teach you everything from social media marketing 
             to graphic design, all designed for beginners.
           </p>
@@ -61,7 +61,7 @@ export default function AboutPage({ onBack }) {
           </div>
 
           <div className="mission-box">
-            <h2>Why LIDKHA?</h2>
+            <h2>Why SKILWHOP?</h2>
             <p>
               No complicated theory. No long lectures. Just step-by-step guides that show you exactly 
               how to earn money using your smartphone. Learn at your own pace and start earning immediately.
@@ -86,13 +86,13 @@ export default function AboutPage({ onBack }) {
 
         <section className="cta-about">
           <h2>Ready to start learning?</h2>
-          <p>Join thousands who are building their digital income with LIDKHA</p>
+          <p>Join thousands who are building their digital income with SKILWHOP</p>
           <button className="button button-primary" onClick={onBack}>Explore courses</button>
         </section>
       </main>
 
       <footer className="about-footer">
-        <p>© 2026 LIDKHA — Learn, Build, Earn</p>
+        <p>© 2026 SKILWHOP — Learn, Build, Earn</p>
       </footer>
     </div>
   )

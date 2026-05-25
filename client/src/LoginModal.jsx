@@ -1,99 +1,199 @@
-import { useState } from 'react'
-import './LoginModal.css'
+import { useState, useEffect, useRef } from 'react';
+import './LoginModal.css';
+import { countries } from './countries';
 
-export default function LoginModal({ isOpen, onClose, onSignUp }) {
+const EyeIcon = ({ size = 20, ...props }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+);
+
+const EyeOffIcon = ({ size = 20, ...props }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+    <line x1="1" y1="1" x2="23" y2="23"></line>
+  </svg>
+);
+
+export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
+  const [mode, setMode] = useState('signup');
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    identifier: '',
     email: '',
-    name: '',
-    state: '',
-    language: 'English'
-  })
+    username: '',
+    password: '',
+    country: '',
+    language: 'English',
+    agreedToTerms: false,
+  });
+  const [error, setError] = useState('');
+  const [countrySearch, setCountrySearch] = useState('');
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+  const countryRef = useRef(null);
+
+  useEffect(() => {
+    if (isCountryDropdownOpen) {
+      setFilteredCountries(
+        countries.filter(c => c.toLowerCase().includes(countrySearch.toLowerCase()))
+      );
+    } else {
+      setFilteredCountries([]);
+    }
+  }, [countrySearch, isCountryDropdownOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (countryRef.current && !countryRef.current.contains(event.target)) {
+        setIsCountryDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleCountrySelect = (country) => {
+    setFormData(prev => ({ ...prev, country }));
+    setCountrySearch(country);
+    setIsCountryDropdownOpen(false);
+  }
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+  };
+
+  const resetForm = () => {
+    setFormData({ identifier: '', email: '', username: '', password: '', country: '', language: 'English', agreedToTerms: false });
+    setError('');
+    setCountrySearch('');
+  };
+
+  const handleModeSwitch = (e) => {
+    e.preventDefault();
+    setMode(prev => (prev === 'signup' ? 'login' : 'signup'));
+    resetForm();
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onSignUp(formData)
-    setFormData({ email: '', name: '', state: '', language: 'English' })
-  }
+    e.preventDefault();
+    setError('');
+    let result;
+    if (mode === 'signup') {
+      if (!formData.agreedToTerms) return setError('You must agree to the terms to sign up.');
+      if (formData.password.length < 8) return setError('Password must be at least 8 characters.');
+      if (!formData.country) return setError('Please select your country.');
+      result = onSignUp(formData);
 
-  if (!isOpen) return null
+      if (result && result.error === 'An account with this email already exists.') {
+        setError('An account with this email already exists. Please log in.');
+        setMode('login');
+        setFormData(prev => ({
+          ...prev,
+          identifier: prev.email,
+          password: '',
+        }));
+      } else if (result && result.error) {
+        setError(result.error);
+      } else if (!result.error) {
+        onClose();
+      }
+    } else {
+      if (!formData.identifier || !formData.password) return setError('Please enter your credentials.');
+      result = onLogin(formData);
+      if (result && result.error) {
+        setError(result.error);
+      } else if (!result.error) {
+        onClose();
+      }
+    }
+  };
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>×</button>
-        
         <div className="modal-header">
-          <h2>Get started with LIDKHA</h2>
-          <p>Sign up to access your first course</p>
+          <h2>{mode === 'signup' ? 'Get started with SKILWHOP' : 'Log in to SKILWHOP'}</h2>
+          <p>{mode === 'signup' ? 'Create your account' : 'Welcome back!'}</p>
         </div>
-
         <form onSubmit={handleSubmit} className="login-form">
+          {mode === 'signup' ? (
+            <>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input type="text" id="username" name="username" autoComplete="username" value={formData.username} onChange={handleChange} placeholder="Choose a username" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input type="email" id="email" name="email" autoComplete="email" value={formData.email} onChange={handleChange} placeholder="your.email@example.com" required />
+              </div>
+            </>
+          ) : (
+            <div className="form-group">
+              <label htmlFor="identifier">Username or Email</label>
+              <input type="text" id="identifier" name="identifier" autoComplete="username" value={formData.identifier} onChange={handleChange} placeholder="Username or your.email@example.com" required />
+            </div>
+          )}
           <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="your.email@example.com"
-              required
-            />
+            <label htmlFor="password">Password</label>
+            <div className="password-input-wrapper">
+              <input type={showPassword ? 'text' : 'password'} id="password" name="password" autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} value={formData.password} onChange={handleChange} placeholder={mode === 'signup' ? 'Create a password' : 'Enter your password'} required />
+              <span className="password-toggle-icon" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
-
-          <div className="form-group">
-            <label htmlFor="name">Full Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Your name"
-              required
-            />
+          {mode === 'signup' && (
+            <>
+              <div className="form-row">
+                <div className="form-group" ref={countryRef}>
+                  <label htmlFor="country">Country</label>
+                  <input type="text" id="country" name="country-search" value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} onFocus={() => setIsCountryDropdownOpen(true)} placeholder="Your country" autoComplete="off"/>
+                  {isCountryDropdownOpen && (
+                    <ul className="country-dropdown">
+                      {filteredCountries.length > 0 ? (
+                        filteredCountries.map(country => (
+                          <li key={country} onClick={() => handleCountrySelect(country)}>
+                            {country}
+                          </li>
+                        ))
+                      ) : ( <li>No country found</li> )}
+                    </ul>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="language">Language</label>
+                  <select id="language" name="language" value={formData.language} onChange={handleChange}>
+                    <option>English</option>
+                    <option>Français</option>
+                    <option>Español</option>
+                    <option>Português</option>
+                    <option>العربية</option>
+                    <option>हिन्दी</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group-agree">
+                <input type="checkbox" id="agreedToTerms" name="agreedToTerms" checked={formData.agreedToTerms} onChange={handleChange} required />
+                <label htmlFor="agreedToTerms">
+                  I agree to the <a href="/terms" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
+                </label>
+              </div>
+            </>
+          )}
+          {error && <p className="form-error">{error}</p>}
+          <button type="submit" className="submit-btn" disabled={mode === 'signup' && !formData.agreedToTerms}>{mode === 'signup' ? 'Agree and Continue' : 'Log In'}</button>
+          <div className="mode-switch">
+            <span>{mode === 'signup' ? 'Already have an account?' : "Don't have an account?"}</span>
+            <a href="#" onClick={handleModeSwitch}>{mode === 'signup' ? 'Log In' : 'Sign Up'}</a>
           </div>
-
-          <div className="form-group">
-            <label htmlFor="state">State</label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              placeholder="Your state or region"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="language">Language</label>
-            <select
-              id="language"
-              name="language"
-              value={formData.language}
-              onChange={handleChange}
-            >
-              <option>English</option>
-              <option>Français</option>
-              <option>Español</option>
-              <option>Português</option>
-              <option>العربية</option>
-              <option>हिन्दी</option>
-            </select>
-          </div>
-
-          <button type="submit" className="button button-primary submit-btn">
-            Sign up and start learning
-          </button>
         </form>
       </div>
     </div>
-  )
+  );
 }

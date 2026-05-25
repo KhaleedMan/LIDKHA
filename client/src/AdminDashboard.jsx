@@ -1,31 +1,55 @@
-import { useState } from 'react'
-import './AdminDashboard.css'
+import { useState } from 'react';
+import './AdminDashboard.css';
+import './features.css';
+import logo from './assets/logo.png.png';
 
-export default function AdminDashboard({ user, onBack }) {
-  const [courses, setCourses] = useState([
-    {
-      id: 1,
-      title: 'Make Money with Facebook & WhatsApp',
-      lessons: [
-        { id: 1, title: 'Getting Started with Zero Followers', videoUrl: null, duration: '12 min' },
-        { id: 2, title: 'Setting Up Your Facebook Profile', videoUrl: null, duration: '15 min' },
-        { id: 3, title: 'Facebook Marketplace Basics', videoUrl: null, duration: '18 min' },
-        { id: 4, title: 'WhatsApp Business Setup', videoUrl: null, duration: '14 min' },
-        { id: 5, title: 'First Sales Strategy', videoUrl: null, duration: '20 min' },
-        { id: 6, title: 'Scaling Your Income', videoUrl: null, duration: '16 min' }
-      ]
-    }
-  ])
+export default function AdminDashboard({ user, onBack, registeredUsers, setRegisteredUsers, courses, setCourses }) {
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState({});
+  const [expandedLesson, setExpandedLesson] = useState(null);
+  const [newCourseTitle, setNewCourseTitle] = useState('');
+  const [newLessonTitle, setNewLessonTitle] = useState('');
+  const [newLessonDuration, setNewLessonDuration] = useState('');
 
-  const [selectedCourse, setSelectedCourse] = useState(null)
-  const [uploadStatus, setUploadStatus] = useState({})
-  const [expandedLesson, setExpandedLesson] = useState(null)
+  const handleCreateCourse = () => {
+    if (!newCourseTitle) return;
+    const newCourse = {
+      id: Date.now(),
+      title: newCourseTitle,
+      author: user.username,
+      lessons: [],
+    };
+    setCourses(prev => [...prev, newCourse]);
+    setNewCourseTitle('');
+  };
+
+  const handleDeleteCourse = (courseId) => {
+    setCourses(prev => prev.filter(course => course.id !== courseId));
+    setSelectedCourse(null);
+  };
+
+  const handleAddLesson = (courseId) => {
+    if (!newLessonTitle || !newLessonDuration) return;
+    const newLesson = {
+      id: Date.now(),
+      title: newLessonTitle,
+      duration: newLessonDuration,
+      videoUrl: null,
+    };
+    setCourses(prev => prev.map(course => 
+      course.id === courseId 
+        ? { ...course, lessons: [...course.lessons, newLesson] }
+        : course
+    ));
+    setNewLessonTitle('');
+    setNewLessonDuration('');
+  };
 
   const handleVideoUpload = (courseId, lessonId, file) => {
-    if (!file) return
+    if (!file) return;
 
-    const reader = new FileReader()
-    const key = `${courseId}-${lessonId}`
+    const reader = new FileReader();
+    const key = `${courseId}-${lessonId}`;
 
     reader.onload = (e) => {
       setCourses(prev => prev.map(course => 
@@ -39,24 +63,24 @@ export default function AdminDashboard({ user, onBack }) {
               )
             }
           : course
-      ))
+      ));
 
       setUploadStatus(prev => ({
         ...prev,
         [key]: { status: 'success', message: 'Video uploaded successfully!' }
-      }))
+      }));
 
       setTimeout(() => {
         setUploadStatus(prev => {
-          const newStatus = { ...prev }
-          delete newStatus[key]
-          return newStatus
-        })
-      }, 3000)
-    }
+          const newStatus = { ...prev };
+          delete newStatus[key];
+          return newStatus;
+        });
+      }, 3000);
+    };
 
-    reader.readAsDataURL(file)
-  }
+    reader.readAsDataURL(file);
+  };
 
   const handleRemoveVideo = (courseId, lessonId) => {
     setCourses(prev => prev.map(course =>
@@ -70,19 +94,30 @@ export default function AdminDashboard({ user, onBack }) {
             )
           }
         : course
-    ))
-  }
+    ));
+  };
 
   const uploadedCount = selectedCourse
     ? selectedCourse.lessons.filter(l => l.videoUrl).length
-    : 0
+    : 0;
+
+  const toggleVerified = (email) => {
+    setRegisteredUsers(prev =>
+      prev.map(u => (u.email === email ? { ...u, isVerified: !u.isVerified } : u))
+    );
+  };
+
+  const affiliates = registeredUsers.filter(u => u.referrer);
 
   return (
     <div className="admin-dashboard">
       <header className="admin-header">
-        <div className="admin-title-section">
-          <h1>📹 Admin Dashboard - Video Management</h1>
-          <p className="admin-subtitle">Upload and manage course videos</p>
+        <div className="admin-title-section" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={logo} alt="SKILWHOP Logo" style={{ height: '40px', marginRight: '15px' }} />
+          <div>
+            <h1>SKILWHOP TECHNOLOGY LIMITED</h1>
+            <p className="admin-subtitle">Admin Dashboard</p>
+          </div>
         </div>
         <div className="admin-user-section">
           <span className="admin-user-name">👤 {user?.name}</span>
@@ -91,20 +126,73 @@ export default function AdminDashboard({ user, onBack }) {
       </header>
 
       <main className="admin-main">
+        <section className="course-creation">
+          <h2>Create New Course</h2>
+          <div className="form-group">
+            <input type="text" value={newCourseTitle} onChange={(e) => setNewCourseTitle(e.target.value)} placeholder="New course title" />
+            <button onClick={handleCreateCourse}>Create Course</button>
+          </div>
+        </section>
+
+        <section className="user-management">
+          <h2>User Management</h2>
+          <div className="user-list-header">
+            <span>Username</span>
+            <span>Email</span>
+            <span>Verified</span>
+            <span>Actions</span>
+          </div>
+          <div className="user-list">
+            {registeredUsers.map(user => (
+              <div className="user-list-item" key={user.email}>
+                <span>{user.username}</span>
+                <span>{user.email}</span>
+                <span>{user.isVerified ? 'Yes' : 'No'}</span>
+                <button onClick={() => toggleVerified(user.email)}>
+                  {user.isVerified ? 'Unverify' : 'Verify'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="affiliate-management">
+          <h2>Affiliate Management</h2>
+          <div className="affiliate-list-header">
+            <span>Username</span>
+            <span>Email</span>
+            <span>Referrer</span>
+          </div>
+          <div className="affiliate-list">
+            {affiliates.map(affiliate => (
+              <div className="affiliate-list-item" key={affiliate.email}>
+                <span>{affiliate.username}</span>
+                <span>{affiliate.email}</span>
+                <span>{affiliate.referrer}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="courses-selector">
-          <h2>Select a Course</h2>
+          <h2>Course Management</h2>
           <div className="courses-grid">
             {courses.map(course => (
-              <button
-                key={course.id}
-                className={`course-selector-btn ${selectedCourse?.id === course.id ? 'active' : ''}`}
-                onClick={() => setSelectedCourse(course)}
-              >
-                <div className="course-selector-title">{course.title}</div>
-                <div className="course-selector-stats">
-                  {course.lessons.filter(l => l.videoUrl).length} / {course.lessons.length} videos
-                </div>
-              </button>
+              <div key={course.id} className="course-selector-btn-wrapper">
+                <button
+                  className={`course-selector-btn ${selectedCourse?.id === course.id ? 'active' : ''}`}
+                  onClick={() => setSelectedCourse(course)}
+                >
+                  <div className="course-selector-title">{course.title}</div>
+                  <div className="course-selector-author">by {course.author}</div>
+                  <div className="course-selector-stats">
+                    {course.lessons.filter(l => l.videoUrl).length} / {course.lessons.length} videos
+                  </div>
+                </button>
+                {user.isAdmin && (
+                  <button className="delete-course-btn" onClick={() => handleDeleteCourse(course.id)}>Delete</button>
+                )}
+              </div>
             ))}
           </div>
         </section>
@@ -123,6 +211,15 @@ export default function AdminDashboard({ user, onBack }) {
                     style={{ width: `${(uploadedCount / selectedCourse.lessons.length) * 100}%` }}
                   ></div>
                 </div>
+              </div>
+            </div>
+
+            <div className="lesson-creation">
+              <h3>Add New Lesson</h3>
+              <div className="form-group">
+                <input type="text" value={newLessonTitle} onChange={(e) => setNewLessonTitle(e.target.value)} placeholder="New lesson title" />
+                <input type="text" value={newLessonDuration} onChange={(e) => setNewLessonDuration(e.target.value)} placeholder="Lesson duration (e.g., 15 min)" />
+                <button onClick={() => handleAddLesson(selectedCourse.id)}>Add Lesson</button>
               </div>
             </div>
 
@@ -179,7 +276,7 @@ export default function AdminDashboard({ user, onBack }) {
                       ) : (
                         <div className="upload-drop-zone">
                           <div className="upload-icon">📤</div>
-                          <p className="upload-text">Drag and drop your video here</p>
+                          <p className-="upload-text">Drag and drop your video here</p>
                           <p className="upload-subtext">or click to select a file</p>
                           <p className="upload-format">Supported formats: MP4, MOV, AVI, WebM</p>
                         </div>
@@ -191,7 +288,7 @@ export default function AdminDashboard({ user, onBack }) {
                         accept="video/*"
                         style={{ display: 'none' }}
                         onChange={(e) => {
-                          handleVideoUpload(selectedCourse.id, lesson.id, e.target.files[0])
+                          handleVideoUpload(selectedCourse.id, lesson.id, e.target.files[0]);
                         }}
                       />
 
@@ -223,8 +320,8 @@ export default function AdminDashboard({ user, onBack }) {
       </main>
 
       <footer className="admin-footer">
-        <p>📝 Admin Video Management Panel - LIDKHA Learning Platform</p>
+        <p>📝 Admin Video Management Panel - SKILWHOP Learning Platform</p>
       </footer>
     </div>
-  )
+  );
 }
