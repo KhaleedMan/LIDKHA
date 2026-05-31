@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import './LoginModal.css';
 import { countries } from './countries';
@@ -35,6 +34,7 @@ export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const countryRef = useRef(null);
+  const modalContentRef = useRef(null); /* Ref for modal content */
 
   const countryObjects = countries.map(name => ({ name }));
 
@@ -124,7 +124,7 @@ export default function LoginModal({ isOpen, onClose, onSignUp, onLogin }) {
 
   return (
     <div className="modal-overlay" onMouseDown={onClose}>
-      <div className="modal-content" onMouseDown={(e) => e.stopPropagation()}>
+      <div className="modal-content" ref={modalContentRef} onMouseDown={(e) => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>&times;</button>
         <div className="modal-header">
           <h2>{mode === 'signup' ? 'Get started with SKILWHOP' : 'Log in to SKILWHOP'}</h2>
