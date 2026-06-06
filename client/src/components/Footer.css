@@ -1,0 +1,104 @@
+/* ===== FOOTER STYLES ===== */
+
+.site-footer {
+  background-color: var(--surface-color);
+  padding: var(--spacing-lg) 0;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column; /* Stack elements by default */
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap; /* Allow links to wrap to the next line */
+  justify-content: center; /* Center links horizontally */
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+.social-icons {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.social-icons a {
+  font-size: var(--font-size-xl); /* Icon size */
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: var(--primary-color);
+}
+
+.copyright {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS FOR FOOTER ===== */
+
+/* Laptop: 1024px - 1279px */
+@media (min-width: 1024px) {
+  .footer-content {
+    flex-direction: row; /* Side-by-side layout */
+    justify-content: space-between; /* Distribute space */
+    max-width: 1400px; /* Match container width */
+    margin-inline: auto; /* Center the footer content */
+    padding-inline: clamp(1rem, 3vw, 2rem); /* Responsive padding */
+  }
+  .footer-links {
+    justify-content: flex-start; /* Align links to the start */
+  }
+  .copyright {
+    text-align: right; /* Align copyright to the right */
+    margin-left: auto; /* Push copyright to the far right */
+  }
+}
+
+/* Small Laptop: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .footer-content {
+    padding-inline: clamp(1rem, 3vw, 1.5rem); /* Adjusted padding */
+  }
+  .footer-links {
+    gap: var(--spacing-md);
+  }
+}
+
+/* Tablet: 640px - 767px */
+@media (min-width: 640px) and (max-width: 767px) {
+  .footer-content {
+    padding-inline: var(--spacing-sm);
+  }
+}
+
+/* Mobile: 0px - 639px */
+@media (max-width: 639px) {
+  .footer-content {
+    padding-inline: var(--spacing-sm); /* Smaller padding on mobile */
+  }
+  .footer-links {
+    flex-direction: column; /* Stack links vertically */
+    gap: var(--spacing-md);
+  }
+  .social-icons {
+    margin-top: var(--spacing-sm); /* Add some space above social icons */
+  }
+}

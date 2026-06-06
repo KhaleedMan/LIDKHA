@@ -1,0 +1,119 @@
+/* ===== PRICING CARD STYLES ===== */
+
+.pricing-card {
+  background-color: var(--background-color);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes button to bottom */
+  align-items: center; /* Center content horizontally */
+  text-align: center; /* Center text */
+  height: 100%; /* Ensure cards fill grid cell height */
+  border: 1px solid var(--border-color); /* Default border */
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pricing-card.featured {
+  transform: scale(1.05); /* Highlight featured card */
+  border-color: var(--primary-color);
+  border-width: 2px;
+}
+
+.pricing-card h3 {
+  font-size: var(--font-size-xxl); /* Responsive heading size */
+  margin-bottom: var(--spacing-sm);
+  color: var(--primary-color);
+}
+
+.pricing-card .price {
+  font-size: clamp(2rem, 5vw, 4rem); /* Fluid price scaling */
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pricing-card .price span {
+  font-size: var(--font-size-lg); /* Responsive font size for currency/period */
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+}
+
+.pricing-card ul {
+  list-style: none;
+  margin-bottom: var(--spacing-lg);
+  padding-left: 0;
+  width: 100%; /* Ensure list takes full width */
+}
+
+.pricing-card ul li {
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center list items */
+  gap: var(--spacing-xs);
+}
+
+.pricing-card ul li svg {
+  color: var(--primary-color);
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.pricing-card .btn {
+  margin-top: auto; /* Pushes button to the bottom */
+  width: 80%; /* Make button wider */
+  max-width: 250px; /* Max width for button */
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS FOR PRICING CARD ===== */
+
+/* Tablet and smaller adjustments */
+@media (max-width: 767px) {
+  .pricing-card {
+    padding: var(--spacing-lg); /* Maintain padding */
+    max-width: 400px; /* Max width for cards on smaller screens */
+    margin: 0 auto; /* Center card if not in a grid */
+  }
+  .pricing-card.featured {
+    transform: scale(1); /* Remove scale effect on smaller screens */
+  }
+  .pricing-card h3 {
+    font-size: var(--font-size-xl);
+  }
+  .pricing-card .price {
+    font-size: clamp(1.8rem, 5vw, 3rem); /* Adjust price size */
+  }
+  .pricing-card .price span {
+    font-size: var(--font-size-base);
+  }
+  .pricing-card ul li {
+    justify-content: flex-start; /* Align list items left */
+    text-align: left;
+  }
+  .pricing-card .btn {
+    width: 100%; /* Full width button */
+    max-width: none;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 375px) {
+  .pricing-card {
+    padding: var(--spacing-md);
+  }
+  .pricing-card h3 {
+    font-size: var(--font-size-lg);
+  }
+  .pricing-card .price {
+    font-size: clamp(1.6rem, 6vw, 2.8rem);
+  }
+}

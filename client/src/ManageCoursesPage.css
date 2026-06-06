@@ -1,0 +1,139 @@
+.manage-courses-page {
+  color: #fff;
+  background-color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 1.1rem;
+  color: #a0a0a0;
+  margin-bottom: 2rem;
+}
+
+.course-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: #2c2c2c;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-card h4 {
+  font-size: 1rem;
+  color: #a0a0a0;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.course-list-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  background-color: #2c2c2c;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 0.8rem 1rem;
+  width: 300px;
+}
+
+.filter-buttons .filter-btn {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: none;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.filter-buttons .filter-btn.active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.course-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.course-table th,
+.course-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+.course-table th {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.course-info {
+  display: flex;
+  align-items: center;
+}
+
+.course-thumbnail {
+  width: 100px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.status-published {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.status-draft {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.status-archived {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.action-buttons .action-btn {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.action-buttons .archive-btn {
+    background-color: #dc3545;
+}

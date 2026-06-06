@@ -1,0 +1,468 @@
+/* === Course Builder Page General Layout === */
+.course-builder-page {
+  background-color: #121212; /* Dark background */
+  color: #E0E0E0; /* Light text */
+  padding: 2rem 3rem;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.builder-header {
+  margin-bottom: 2.5rem;
+}
+
+.builder-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.builder-header .subtitle {
+  font-size: 1.1rem;
+  color: #A0A0A0; /* Softer text color */
+}
+
+/* === Progress Tracker === */
+.progress-tracker {
+  background-color: #1F1F1F;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.progress-bar-container {
+  background-color: #333;
+  border-radius: 20px;
+  height: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #4F46E5, #8B5CF6);
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.3s ease-in-out;
+}
+
+.progress-info {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: right;
+  color: #C0C0C0;
+}
+
+.progress-steps {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: #A0A0A0;
+}
+
+.progress-steps span {
+  color: #70C874; /* Green for completed */
+}
+
+.progress-steps span.pending {
+  color: #A0A0A0;
+}
+
+/* === Main Builder Content (2-column layout) === */
+.builder-main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  flex-grow: 1;
+}
+
+.module-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* === Module Card === */
+.module-card {
+  background-color: #1F1F1F;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.module-card-header {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.drag-handle {
+  color: #666;
+  cursor: grab;
+  margin-right: 0.5rem;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.module-title-input {
+  flex-grow: 1;
+  background: none;
+  border: none;
+  color: #E0E0E0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.2rem;
+}
+
+.module-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #A0A0A0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.icon-button:hover {
+  color: #FFF;
+}
+
+/* === Lesson List === */
+.lesson-list {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  background-color: #2A2A2A;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.lesson-item:hover {
+  background-color: #333;
+}
+
+.lesson-item.active {
+  background-color: #3A3A3A;
+  border-color: #8B5CF6; /* Highlight color */
+}
+
+.lesson-item-title {
+  flex-grow: 1;
+}
+
+.add-lesson-button, .add-module-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: none;
+    border: 2px dashed #444;
+    color: #A0A0A0;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.add-lesson-button:hover, .add-module-button:hover {
+    border-color: #8B5CF6;
+    color: #FFF;
+}
+
+.add-module-button {
+    padding: 1.5rem;
+    font-weight: 600;
+}
+
+/* === Lesson Editor === */
+.lesson-editor {
+  background-color: #1F1F1F;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+}
+
+.editor-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #666;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.editor-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.editor-content .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.editor-content .form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #A0A0A0;
+    margin-bottom: 0.5rem;
+}
+
+.editor-content input[type='text'], .editor-content textarea {
+    width: 100%;
+    background-color: #2A2A2A;
+    border: 1px solid #444;
+    color: #E0E0E0;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.editor-content textarea {
+    resize: vertical;
+}
+
+.editor-section-title {
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid #333;
+    padding-top: 1.5rem;
+}
+
+.content-source-selector {
+    display: flex;
+    background-color: #2A2A2A;
+    border-radius: 8px;
+    padding: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-source-selector label {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #A0A0A0;
+}
+
+.content-source-selector label.active {
+    background-color: #444;
+    color: #FFF;
+}
+
+.content-source-selector input[type="radio"] {
+    display: none;
+}
+
+
+.video-upload-area, .resource-upload-area {
+    border: 2px dashed #444;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+
+.video-upload-area:hover, .resource-upload-area:hover {
+    border-color: #8B5CF6;
+}
+
+.upload-video-btn, .upload-resource-btn {
+    background-color: #4F46E5;
+    color: #FFF;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.video-upload-area p {
+    color: #A0A0A0;
+    font-size: 0.9rem;
+}
+
+.upload-progress-container {
+    width: 100%;
+    text-align: center;
+}
+
+.upload-progress-bar-background {
+    background-color: #333;
+    border-radius: 4px;
+    height: 8px;
+    margin: 0.5rem 0;
+}
+
+.upload-progress-bar {
+    background-color: #4F46E5;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.2s linear;
+}
+
+.file-preview.ready {
+    background-color: #222;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-info .file-name {
+    font-weight: 600;
+}
+.file-info .file-size {
+    font-size: 0.9rem;
+    color: #A0A0A0;
+}
+
+
+.video-preview-card {
+    margin-top: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.video-preview-card iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.file-preview, .resource-list .file-preview {
+    background-color: #2A2A2A;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.file-preview span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-preview button, .resource-list button, .file-actions button {
+    background: none;
+    border: 1px solid #555;
+    color: #A0A0A0;
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    cursor: pointer;
+}
+
+.file-preview button:hover, .resource-list button:hover, .file-actions button:hover {
+    color: #FFF;
+    border-color: #FFF;
+}
+
+.resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* === Bottom Actions === */
+.builder-bottom-actions {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(to top, #121212, rgba(18, 18, 18, 0.8));
+  padding: 1.5rem 3rem;
+  margin: 2rem -3rem -2rem -3rem; /* Overlap parent padding */
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  border-top: 1px solid #333;
+}
+
+.action-btn-primary, .action-btn-secondary {
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-btn-secondary {
+    background-color: #333;
+    color: #FFF;
+}
+.action-btn-secondary:hover {
+    background-color: #444;
+}
+
+.action-btn-primary {
+    background-color: #4F46E5;
+    color: #FFF;
+}
+.action-btn-primary:hover {
+    background-color: #6D28D9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .builder-main-content {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+    .lesson-editor {
+        min-height: 500px; /* Ensure editor has height when stacked */
+    }
+}
+
+@media (max-width: 768px) {
+    .course-builder-page {
+        padding: 1.5rem;
+    }
+    .builder-bottom-actions {
+        flex-direction: column;
+        margin: 1.5rem -1.5rem -1.5rem -1.5rem;
+        padding: 1rem;
+    }
+    .action-btn-primary, .action-btn-secondary {
+        width: 100%;
+    }
+}

@@ -1,0 +1,71 @@
+/* ===== FAQ ITEM STYLES ===== */
+
+.faq-item {
+  background-color: var(--background-color);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease;
+  height: 100%; /* Ensure cards fill grid cell height */
+}
+
+.faq-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.faq-item .question {
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-lg); /* Responsive font size */
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.faq-item .question::after {
+  content: '+';
+  font-size: var(--font-size-xl);
+  transition: transform 0.3s ease;
+  color: var(--primary-color);
+}
+
+.faq-item.open .question::after {
+  transform: rotate(45deg); /* Indicate expansion */
+}
+
+.faq-item .answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding-top 0.3s ease-out;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base); /* Responsive font size */
+  line-height: 1.6;
+}
+
+.faq-item.open .answer {
+  max-height: 300px; /* Adjust as needed, ensure it's large enough */
+  padding-top: var(--spacing-sm);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS FOR FAQ ITEM ===== */
+
+/* Tablet and smaller adjustments */
+@media (max-width: 767px) {
+  .faq-item {
+    padding: var(--spacing-md); /* Adjust padding */
+    max-width: 450px; /* Max width for cards */
+    margin: 0 auto; /* Center card */
+  }
+  .faq-item .question {
+    font-size: var(--font-size-base); /* Adjust question font size */
+  }
+  .faq-item .question::after {
+    font-size: var(--font-size-lg); /* Adjust icon size */
+  }
+  .faq-item .answer {
+    font-size: var(--font-size-sm); /* Adjust answer font size */
+  }
+}

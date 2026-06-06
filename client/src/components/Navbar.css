@@ -1,0 +1,159 @@
+/* ===== NAVBAR STYLES ===== */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) clamp(1rem, 3vw, 2rem); /* Responsive padding */
+  background-color: var(--background-color);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure navbar is above other content */
+  min-height: 70px; /* Minimum height for navbar */
+}
+
+.navbar .logo {
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-bold);
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.navbar .logo span {
+  color: var(--text-primary);
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-medium);
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Active link styling */
+.nav-links a.active {
+  color: var(--primary-color);
+  font-weight: var(--font-semibold);
+}
+
+/* Buttons in Navbar (e.g., Login, Signup) */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Hamburger Menu Icon (hidden on larger screens) */
+.hamburger-menu {
+  display: none; /* Hidden by default */
+  cursor: pointer;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS FOR NAVBAR ===== */
+
+/* Laptop: 1024px - 1279px */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .nav-links a {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Small Laptop: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar {
+    padding: var(--spacing-sm) clamp(1rem, 3vw, 1.5rem);
+  }
+  .nav-links a {
+    font-size: var(--font-size-sm); /* Slightly smaller font */
+    gap: var(--spacing-md);
+  }
+  .navbar-actions .btn {
+    padding: var(--spacing-xs) var(--spacing-sm); /* Smaller buttons */
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Tablet: 640px - 767px */
+@media (min-width: 640px) and (max-width: 767px) {
+  .nav-links {
+    display: none; /* Hide nav links */
+  }
+  .hamburger-menu {
+    display: block; /* Show hamburger menu */
+  }
+}
+
+/* Mobile: 0px - 639px */
+@media (max-width: 639px) {
+  .nav-links {
+    display: none; /* Hide nav links */
+  }
+  .hamburger-menu {
+    display: block; /* Show hamburger menu */
+  }
+  .navbar {
+    padding: var(--spacing-sm) var(--spacing-sm); /* Adjust padding */
+  }
+  .navbar .logo {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Hamburger Menu Dropdown (if needed, styles would be in a separate component or here) */
+/* Example for a mobile menu that slides out */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent overlay */
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%); /* Hidden by default */
+  transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.open {
+  transform: translateX(0); /* Visible when open */
+}
+
+.mobile-menu .mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.mobile-menu .mobile-nav-links a {
+  color: var(--background-color);
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-semibold);
+}
+
+.mobile-menu .close-icon {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: var(--font-size-xxxl);
+  color: var(--background-color);
+  cursor: pointer;
+}

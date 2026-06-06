@@ -1,0 +1,94 @@
+/* ===== TESTIMONIAL CARD STYLES ===== */
+
+.testimonial-card {
+  background-color: var(--background-color);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content */
+  text-align: center; /* Center text */
+  height: 100%; /* Ensure cards fill grid cell height */
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-card .quote {
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  padding-left: 40px; /* Space for quote icon */
+  font-size: var(--font-size-lg); /* Responsive font size */
+  line-height: 1.6;
+}
+
+.testimonial-card .quote::before {
+  content: '“';
+  position: absolute;
+  left: 0;
+  top: -10px; /* Adjust position */
+  font-size: 3rem; /* Large quote icon */
+  color: var(--primary-color);
+  opacity: 0.3;
+}
+
+.testimonial-card .author-info {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center author info */
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md); /* Space above author */
+}
+
+.testimonial-card .author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--border-radius-full);
+  object-fit: cover;
+  border: 2px solid var(--primary-color); /* Border around avatar */
+}
+
+.testimonial-card .author-name {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  font-size: var(--font-size-lg);
+}
+
+.testimonial-card .author-title {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS FOR TESTIMONIAL CARD ===== */
+
+/* Tablet and smaller adjustments */
+@media (max-width: 767px) {
+  .testimonial-card {
+    padding: var(--spacing-md); /* Adjust padding */
+    max-width: 400px; /* Max width for cards */
+    margin: 0 auto; /* Center card */
+  }
+  .testimonial-card .quote {
+    font-size: var(--font-size-base); /* Adjust quote font size */
+    padding-left: 30px; /* Adjust quote icon space */
+  }
+  .testimonial-card .quote::before {
+    font-size: 2.5rem; /* Smaller quote icon */
+  }
+  .testimonial-card .author-avatar {
+    width: 45px;
+    height: 45px;
+  }
+  .testimonial-card .author-name {
+    font-size: var(--font-size-base);
+  }
+  .testimonial-card .author-title {
+    font-size: var(--font-size-sm);
+  }
+}

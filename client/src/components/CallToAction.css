@@ -1,0 +1,54 @@
+/* ===== CALL TO ACTION (CTA) SECTION STYLES ===== */
+
+.cta-section {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--background-color);
+  padding: var(--spacing-lg) 0;
+  text-align: center;
+}
+
+.cta-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  max-width: 800px; /* Limit content width */
+  margin-inline: auto; /* Center content */
+  padding-inline: clamp(1rem, 3vw, 2rem); /* Responsive padding */
+}
+
+.cta-content h2 {
+  font-size: var(--font-size-display); /* Responsive display size */
+  color: var(--background-color);
+  line-height: 1.1;
+}
+
+.cta-content p {
+  font-size: var(--font-size-xl); /* Responsive large text */
+  color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS FOR CTA SECTION ===== */
+
+/* Tablet and smaller adjustments */
+@media (max-width: 767px) {
+  .cta-section {
+    padding: var(--spacing-lg) 0; /* Maintain padding */
+  }
+  .cta-content h2 {
+    font-size: var(--font-size-xxxl); /* Adjust heading size */
+  }
+  .cta-content p {
+    font-size: var(--font-size-lg); /* Adjust paragraph size */
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 375px) {
+  .cta-content h2 {
+    font-size: clamp(1.8rem, 8vw, 2.8rem); /* Further adjust for small mobile */
+  }
+  .cta-content p {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+  }
+}

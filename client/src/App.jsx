@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import LoginModal from './LoginModal'
 import ChatSection from './ChatSection'
 import AboutPage from './AboutPage'
-import CourseDetail from './CourseDetail'
+import CourseDetailPage from './CourseDetailPage'
 import AdminDashboard from './AdminDashboard'
 import NewHomepage from './NewHomepage'
+import CreatorProfilePage from './CreatorProfilePage';
+import CreatorsDirectoryPage from './CreatorsDirectoryPage';
+import MessagesPage from './MessagesPage';
+import ExploreCoursesPage from './ExploreCoursesPage';
+import CreatorDashboard from './CreatorDashboard';
+import CreateCoursePage from './CreateCoursePage';
+import ManageCoursesPage from './ManageCoursesPage';
+import CourseBuilderPage from './CourseCurriculumPage'; // Renamed for clarity
+import CoursePreviewPage from './CoursePreviewPage';
+import VideoUploadPage from './VideoUploadPage';
+import StudentDashboard from './StudentDashboard';
 import logo from './assets/logo.png.png';
 
 const features = [
@@ -25,21 +35,25 @@ const features = [
 
 const landingCourses = [
   {
+    id: 1, // Added an ID for navigation
     title: 'Make Money with Facebook & WhatsApp',
     description: 'Learn to earn real income using social platforms even with zero followers.',
     status: 'available'
   },
   {
+    id: 2,
     title: 'Graphic Design Basics',
     description: 'Create stunning visual designs that sell and convert your audience.',
     status: 'coming-soon'
   },
   {
+    id: 3,
     title: 'Video Editing Mastery',
     description: 'Edit professional videos that engage and grow your following fast.',
     status: 'coming-soon'
   },
   {
+    id: 4,
     title: 'Content Creation Strategy',
     description: 'Create viral content that attracts customers and builds your brand.',
     status: 'coming-soon'
@@ -58,10 +72,10 @@ const testimonials = [
 ]
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('landing') // landing, about, dashboard, courseDetail, admin
-  const [isLoginOpen, setIsLoginOpen] = useState(false)
+  const [currentView, setCurrentView] = useState('landing') // landing, auth, about, dashboard, courseDetail, admin, creatorProfile, creatorsDirectory, messages, exploreCourses, creatorDashboard, createCourse, manageCourses, courseCurriculum, videoUpload, coursePreview, studentDashboard
   const [user, setUser] = useState(null)
   const [selectedCourseId, setSelectedCourseId] = useState(null)
+  const [courseDataForPreview, setCourseDataForPreview] = useState(null);
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const [courses, setCourses] = useState([
     {
@@ -87,7 +101,42 @@ export default function App() {
     if (ref) {
       localStorage.setItem('referrer', ref);
     }
+    const path = window.location.pathname;
+    if (path === '/creator-dashboard') {
+      setCurrentView('creatorDashboard');
+    }
+    if (path === '/student-dashboard') {
+      setCurrentView('studentDashboard');
+    }
+
   }, []);
+
+  const handleHomepageAccess = () => {
+    const dummyUser = {
+        name: 'Guest',
+        isAdmin: false,
+    };
+    setUser(dummyUser);
+    setCurrentView('dashboard');
+    window.scrollTo(0, 0);
+  }
+  
+  const handleStudentDashboardClick = () => {
+    setCurrentView('studentDashboard');
+    window.history.pushState(null, '', '/student-dashboard');
+    window.scrollTo(0, 0);
+  };
+
+  const handleEnrollClickFromLanding = (courseId) => {
+    const dummyUser = {
+        name: 'Guest',
+        isAdmin: false,
+    };
+    setUser(dummyUser);
+    setSelectedCourseId(courseId);
+    setCurrentView('courseDetail');
+    window.scrollTo(0, 0);
+  }
 
   const handleAdminAccess = () => {
     if (user?.isAdmin) {
@@ -96,45 +145,16 @@ export default function App() {
     }
   }
 
-  const handleSignUp = (formData) => {
-    const normalizedEmail = formData.email.trim().toLowerCase();
-    if (registeredUsers.some(u => u.email === normalizedEmail)) {
-      return { error: 'An account with this email already exists.' };
-    }
-
-    const referrer = localStorage.getItem('referrer');
-
-    const newUser = {
-      ...formData,
-      email: normalizedEmail,
-      isAdmin: adminEmails.includes(normalizedEmail),
-      isVerified: adminEmails.includes(normalizedEmail),
-      referrer: referrer,
-    };
-    setRegisteredUsers(prev => [...prev, newUser]);
-    setUser(newUser);
-    setIsLoginOpen(false);
-    setCurrentView('dashboard');
-    setTimeout(() => window.scrollTo(0, 0), 100);
-    return {};
-  }
-  
-  const handleLogin = (formData) => {
-    const loginIdentifier = formData.identifier.trim().toLowerCase();
-    const userToLogin = registeredUsers.find(
-      u => u.email === loginIdentifier || u.username.toLowerCase() === loginIdentifier
-    );
-
-    if (userToLogin && userToLogin.password === formData.password) {
-      setUser(userToLogin);
-      setIsLoginOpen(false);
-      setCurrentView('dashboard');
-      setTimeout(() => window.scrollTo(0, 0), 100);
-      return {};
+  const handleLogin = (loggedInUser) => {
+    setUser(loggedInUser);
+    if (loggedInUser.isAdmin) {
+        setCurrentView('admin');
     } else {
-      return { error: 'Invalid credentials. Please try again.' };
+        setCurrentView('dashboard');
     }
+    window.scrollTo(0, 0);
   };
+
 
   const handleLogout = () => {
     setUser(null)
@@ -147,10 +167,82 @@ export default function App() {
     setCurrentView('courseDetail')
     window.scrollTo(0, 0)
   }
+  
+  const handleCreatorProfileClick = () => {
+    setCurrentView('creatorProfile');
+    window.scrollTo(0, 0);
+  };
+  
+  const handleCreatorsDirectoryClick = () => {
+    setCurrentView('creatorsDirectory');
+    window.scrollTo(0, 0);
+  };
+  
+  const handleMessagesClick = () => {
+    setCurrentView('messages');
+    window.scrollTo(0, 0);
+  };
+  
+  const handleExploreCoursesClick = () => {
+    setCurrentView('exploreCourses');
+    window.scrollTo(0, 0);
+  };
+  
+  const handleCreatorDashboardClick = () => {
+    setCurrentView('creatorDashboard');
+    window.history.pushState(null, '', '/creator-dashboard');
+    window.scrollTo(0, 0);
+  };
+  
+  const handleCreateCourseClick = () => {
+    setCurrentView('createCourse');
+    window.scrollTo(0, 0);
+  };
+
+  const handleManageCoursesClick = () => {
+    setCurrentView('manageCourses');
+    window.scrollTo(0, 0);
+  };
+
+  const handleCourseCurriculumClick = () => {
+    setCurrentView('courseCurriculum');
+    window.scrollTo(0, 0);
+  };
+
+  const handleCoursePreviewClick = (courseData) => {
+    setCourseDataForPreview(courseData);
+    setCurrentView('coursePreview');
+    window.scrollTo(0, 0);
+  };
+
+  const handleCourseCreated = () => {
+    setCurrentView('courseCurriculum');
+    window.scrollTo(0, 0);
+  };
+
+  const handlePublish = () => {
+    alert('Course published successfully!');
+    setCurrentView('creatorDashboard');
+  }
 
   const handleBackToDashboard = () => {
     setCurrentView('dashboard')
     window.scrollTo(0, 0)
+  }
+
+  const handleBackToCreatorDashboard = () => {
+    setCurrentView('creatorDashboard');
+    window.scrollTo(0, 0);
+  }
+
+  const handleBackToCreateCourse = () => {
+    setCurrentView('createCourse');
+    window.scrollTo(0, 0);
+  }
+
+  const handleBackToCurriculum = () => {
+    setCurrentView('courseCurriculum');
+    window.scrollTo(0, 0);
   }
 
   const handleAboutPage = () => {
@@ -160,6 +252,7 @@ export default function App() {
 
   const handleBackToLanding = () => {
     setCurrentView('landing')
+    window.history.pushState(null, '', '/');
     window.scrollTo(0, 0)
   }
 
@@ -168,7 +261,47 @@ export default function App() {
   }
 
   if (currentView === 'dashboard' && user) {
-    return <NewHomepage user={user} onLogout={handleLogout} registeredUsers={registeredUsers} setCurrentView={setCurrentView} setSelectedCourseId={setSelectedCourseId} courses={courses} setCourses={setCourses} />;
+    return <NewHomepage user={user} onLogout={handleLogout} registeredUsers={registeredUsers} setCurrentView={setCurrentView} setSelectedCourseId={setSelectedCourseId} courses={courses} setCourses={setCourses} onViewCreatorProfile={handleCreatorProfileClick} onNavigateToCreators={handleCreatorsDirectoryClick} onNavigateToMessages={handleMessagesClick} onNavigateToExploreCourses={handleExploreCoursesClick} onNavigateToCreatorDashboard={handleCreatorDashboardClick} />
+  }
+  
+  if (currentView === 'creatorProfile') {
+    return <CreatorProfilePage onBack={handleBackToDashboard} />;
+  }
+  
+  if (currentView === 'creatorsDirectory') {
+    return <CreatorsDirectoryPage onViewCreatorProfile={handleCreatorProfileClick} />;
+  }
+  
+  if (currentView === 'messages') {
+    return <MessagesPage />;
+  }
+  
+  if (currentView === 'exploreCourses') {
+    return <ExploreCoursesPage onBack={handleBackToDashboard} />;
+  }
+  
+  if (currentView === 'creatorDashboard') {
+    return <CreatorDashboard onNavigateToCreateCourse={handleCreateCourseClick} />;
+  }
+  
+  if (currentView === 'studentDashboard') {
+    return <StudentDashboard />;
+  }
+
+  if (currentView === 'createCourse') {
+    return <CreateCoursePage onBack={handleBackToCreatorDashboard} onCourseCreated={handleCourseCreated} />;
+  }
+
+  if (currentView === 'manageCourses') {
+    return <ManageCoursesPage onBack={handleBackToCreatorDashboard} onNavigateToCurriculum={handleCourseCurriculumClick} />;
+  }
+
+  if (currentView === 'courseCurriculum') {
+    return <CourseBuilderPage onBack={handleBackToCreateCourse} onPreview={handleCoursePreviewClick} />;
+  }
+
+  if (currentView === 'coursePreview') {
+    return <CoursePreviewPage course={courseDataForPreview} onBack={handleBackToCurriculum} onPublish={handlePublish} />;
   }
 
   if (currentView === 'admin' && user) {
@@ -189,11 +322,8 @@ export default function App() {
 
   if (currentView === 'courseDetail' && user) {
     return (
-      <CourseDetail 
-        courseId={selectedCourseId}
-        user={user}
+      <CourseDetailPage 
         onBack={handleBackToDashboard}
-        courses={courses}
       />
     )
   }
@@ -212,7 +342,7 @@ export default function App() {
           <button onClick={handleAboutPage} style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', fontWeight: 500, fontSize: '1rem', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#ffffff'} onMouseLeave={(e) => e.target.style.color = '#cbd5e1'}>About</button>
           <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}>Contact</a>
         </nav>
-        <button className="button button-primary" onClick={() => setIsLoginOpen(true)}>Login</button>
+        <button className="button button-primary" onClick={handleHomepageAccess}>Login</button>
       </header>
 
       <main>
@@ -226,7 +356,7 @@ export default function App() {
               online earnings.
             </p>
             <div className="hero-actions">
-              <button className="button button-primary" onClick={() => setIsLoginOpen(true)}>Sign up to get started</button>
+              <button className="button button-primary" onClick={handleHomepageAccess}>Sign up to get started</button>
               <button className="button button-secondary" onClick={handleAboutPage}>Learn more</button>
             </div>
           </div>
@@ -247,7 +377,7 @@ export default function App() {
             <h2>What you'll get with SKILWHOP</h2>
             <p>Everything you need to start earning from your smartphone today.</p>
           </div>
-          <div className="feature-grid">
+          <div className="feature-.grid">
             {features.map((feature) => (
               <article className="feature-card" key={feature.title}>
                 <h3>{feature.title}</h3>
@@ -268,7 +398,7 @@ export default function App() {
                 <h3>{course.title}</h3>
                 <p>{course.description}</p>
                 {course.status === 'available' ? (
-                  <button className="button button-primary" onClick={() => setIsLoginOpen(true)}>Sign up to enroll</button>
+                  <button className="button button-primary" onClick={() => handleEnrollClickFromLanding(course.id)}>Sign up to enroll</button>
                 ) : (
                   <button className="button button-coming-soon" disabled>Coming soon</button>
                 )}
@@ -296,20 +426,13 @@ export default function App() {
             <h2>Ready to learn every step from my guide?</h2>
             <p>Start with a course designed for beginners who want real digital income skills.</p>
           </div>
-          <button className="button button-primary" onClick={() => setIsLoginOpen(true)}>Start the course</button>
+          <button className="button button-primary" onClick={handleHomepageAccess}>Start the course</button>
         </section>
       </main>
 
       <footer className="site-footer">
         <p>© 2026 SKILWHOP — Built for creators who want digital income.</p>
       </footer>
-
-      <LoginModal
-        isOpen={isLoginOpen}
-        onClose={() => setIsLoginOpen(false)}
-        onSignUp={handleSignUp}
-        onLogin={handleLogin}
-      />
 
       <ChatSection />
     </div>

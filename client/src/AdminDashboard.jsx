@@ -136,41 +136,45 @@ export default function AdminDashboard({ user, onBack, registeredUsers, setRegis
 
         <section className="user-management">
           <h2>User Management</h2>
-          <div className="user-list-header">
-            <span>Username</span>
-            <span>Email</span>
-            <span>Verified</span>
-            <span>Actions</span>
-          </div>
-          <div className="user-list">
-            {registeredUsers.map(user => (
-              <div className="user-list-item" key={user.email}>
-                <span>{user.username}</span>
-                <span>{user.email}</span>
-                <span>{user.isVerified ? 'Yes' : 'No'}</span>
-                <button onClick={() => toggleVerified(user.email)}>
-                  {user.isVerified ? 'Unverify' : 'Verify'}
-                </button>
-              </div>
-            ))}
+          <div className="user-list-container">
+            <div className="user-list-header">
+              <span>Username</span>
+              <span>Email</span>
+              <span>Verified</span>
+              <span>Actions</span>
+            </div>
+            <div className="user-list">
+              {registeredUsers.map(user => (
+                <div className="user-list-item" key={user.email}>
+                  <span>{user.username}</span>
+                  <span>{user.email}</span>
+                  <span>{user.isVerified ? 'Yes' : 'No'}</span>
+                  <button onClick={() => toggleVerified(user.email)}>
+                    {user.isVerified ? 'Unverify' : 'Verify'}
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         <section className="affiliate-management">
           <h2>Affiliate Management</h2>
-          <div className="affiliate-list-header">
-            <span>Username</span>
-            <span>Email</span>
-            <span>Referrer</span>
-          </div>
-          <div className="affiliate-list">
-            {affiliates.map(affiliate => (
-              <div className="affiliate-list-item" key={affiliate.email}>
-                <span>{affiliate.username}</span>
-                <span>{affiliate.email}</span>
-                <span>{affiliate.referrer}</span>
-              </div>
-            ))}
+          <div className="affiliate-list-container">
+            <div className="affiliate-list-header">
+              <span>Username</span>
+              <span>Email</span>
+              <span>Referrer</span>
+            </div>
+            <div className="affiliate-list">
+              {affiliates.map(affiliate => (
+                <div className="affiliate-list-item" key={affiliate.email}>
+                  <span>{affiliate.username}</span>
+                  <span>{affiliate.email}</span>
+                  <span>{affiliate.referrer}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
