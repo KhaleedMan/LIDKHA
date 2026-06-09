@@ -1,0 +1,121 @@
+.community-page {
+  color: #fff;
+  background-color: #1a1a1a;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.community-home {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.community-home h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.community-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  color: #aaa;
+}
+
+.community-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.feed-post {
+  background-color: #2a2a2a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.feed-post.pinned {
+  border: 1px solid #00aaff;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-author {
+  font-weight: bold;
+}
+
+.post-badge {
+  background-color: #00aaff;
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.post-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.post-actions button {
+  background-color: #3a3a3a;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.community-sidebar > div {
+  background-color: #2a2a2a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.community-sidebar h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #00aaff;
+}
+
+.quick-actions button {
+  display: block;
+  width: 100%;
+  background-color: #3a3a3a;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.discussions ul,
+.course-qa ul,
+.members ul {
+  list-style: none;
+  padding: 0;
+}
+
+.discussions li,
+.course-qa li,
+.members li {
+  margin-bottom: 1rem;
+}
+
+.member-badge {
+  background-color: #aaa;
+  color: #1a1a1a;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}

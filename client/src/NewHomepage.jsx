@@ -4,14 +4,14 @@ import './NewHomepage.css';
 import AffiliateDashboard from './AffiliateDashboard';
 import AdminDashboard from './AdminDashboard';
 
-function HeroSection({ onNavigateToExploreCourses, onNavigateToCreatorDashboard }) {
+function HeroSection({ onNavigateToExploreCourses, onViewCreatorProfile }) {
   return (
     <div className="hero-section">
       <h1>Learn. Build. Earn.</h1>
       <p>Discover valuable skills, create courses, grow your audience, and earn from your knowledge with SKILWHOP.</p>
       <div className="hero-buttons">
         <button onClick={onNavigateToExploreCourses}>Explore Courses</button>
-        <button onClick={onNavigateToCreatorDashboard}>Become a Creator</button>
+        <button onClick={onViewCreatorProfile}>Become a Creator</button>
       </div>
     </div>
   );
@@ -151,7 +151,7 @@ function SuccessStories() {
     );
 }
 
-function Footer() {
+function Footer({ onViewCreatorProfile }) {
     return (
         <footer className="footer">
             <div className="footer-content">
@@ -172,7 +172,7 @@ function Footer() {
                 <div className="footer-section links">
                     <h3>Creators</h3>
                     <ul>
-                        <li><a href="#">Become a Creator</a></li>
+                        <li><a href="#" onClick={onViewCreatorProfile}>Become a Creator</a></li>
                         <li><a href="#">Upload Courses</a></li>
                         <li><a href="#">Creator Resources</a></li>
                     </ul>
@@ -233,7 +233,7 @@ export default function NewHomepage({ user, onLogout, registeredUsers, setCurren
       case 'home':
         return (
           <>
-            <HeroSection onNavigateToExploreCourses={onNavigateToExploreCourses} onNavigateToCreatorDashboard={onNavigateToCreatorDashboard} />
+            <HeroSection onNavigateToExploreCourses={onNavigateToExploreCourses} onViewCreatorProfile={onViewCreatorProfile} />
             <CategoryBar />
             <FeaturedCourses onCourseClick={handleCourseClick} />
             <TrendingCreators onViewCreatorProfile={onViewCreatorProfile} />
@@ -250,7 +250,7 @@ export default function NewHomepage({ user, onLogout, registeredUsers, setCurren
       default:
         return (
           <>
-            <HeroSection onNavigateToExploreCourses={onNavigateToExploreCourses} onNavigateToCreatorDashboard={onNavigateToCreatorDashboard} />
+            <HeroSection onNavigateToExploreCourses={onNavigateToExploreCourses} onViewCreatorProfile={onViewCreatorProfile} />
             <CategoryBar />
             <FeaturedCourses onCourseClick={handleCourseClick} />
             <TrendingCreators onViewCreatorProfile={onViewCreatorProfile} />
@@ -271,7 +271,7 @@ export default function NewHomepage({ user, onLogout, registeredUsers, setCurren
           <a href="#" className={activeView === 'discover' ? 'active' : ''} onClick={() => {setActiveView('discover'); setIsSidebarOpen(false);}}>Discover</a>
           <a href="#" onClick={() => {onNavigateToCreators(); setIsSidebarOpen(false);}}>Creators</a>
           {user.isAdmin && <a href="#" onClick={() => {setCurrentView('admin'); setIsSidebarOpen(false);}}>Admin Dashboard</a>}
-          <a href="#" onClick={() => {onNavigateToCreatorDashboard(); setIsSidebarOpen(false);}}>Creator Dashboard</a>
+          <a href="#" onClick={() => {onViewCreatorProfile(); setIsSidebarOpen(false);}}>Creator Dashboard</a>
           <a href="#" className={activeView === 'affiliate' ? 'active' : ''} onClick={() => {setActiveView('affiliate'); setIsSidebarOpen(false);}}>Affiliate</a>
         </nav>
       </div>
@@ -290,7 +290,7 @@ export default function NewHomepage({ user, onLogout, registeredUsers, setCurren
         <div className="main-content">
           {renderActiveView()}
         </div>
-        <Footer />
+        <Footer onViewCreatorProfile={onViewCreatorProfile} />
       </div>
     </div>
   );
