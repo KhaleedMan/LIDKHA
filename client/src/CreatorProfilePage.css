@@ -1,56 +1,165 @@
 .creator-profile-page {
-    max-width: 600px;
-    margin: 2rem auto;
+    display: flex;
+    justify-content: center;
     padding: 2rem;
-    background-color: #2a2a2a;
-    border-radius: 8px;
-  }
-  
-  .creator-profile-page h2 {
+    background-color: #1a1a1a; /* Dark background for the page */
+}
+
+.profile-form-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.profile-form-container h1 {
     text-align: center;
     margin-bottom: 2rem;
-  }
-  
-  .form-group {
+    color: #fff;
+}
+
+.profile-setup-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.profile-form-sections {
+    flex: 3;
+}
+
+.profile-completion-sidebar {
+    flex: 1;
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.form-section {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
     margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
+}
+
+.form-section h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5rem;
+}
+
+.profile-picture-upload {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-picture-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.profile-picture-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-picture-placeholder span {
+    font-size: 3rem;
+    color: #888;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
     display: block;
     margin-bottom: 0.5rem;
-  }
-  
-  .form-group input,
-  .form-group textarea {
+    color: #ccc;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #333;
+    border: 1px solid #444;
     border-radius: 4px;
     background-color: #1a1a1a;
     color: #fff;
-  }
-  
-  .form-actions {
+}
+
+.progress-section h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.progress-bar-container {
+    background-color: #444;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    background-color: #007bff;
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+}
+
+.progress-section p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ccc;
+}
+
+.completion-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.completion-checklist li {
+    color: #888;
+    margin-bottom: 0.5rem;
+}
+
+.completion-checklist li.completed {
+    color: #28a745; /* Green for completed items */
+}
+
+.form-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
-  }
-  
-  .save-button,
-  .cancel-button {
+    margin-top: 2rem;
+}
+
+.button {
     padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .save-button {
     background-color: #007bff;
     color: #fff;
-  }
-  
-  .cancel-button {
-    background-color: #444;
+    text-align: center;
+}
+
+.button-primary {
+    background-color: #007bff;
     color: #fff;
-  }
-  
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
