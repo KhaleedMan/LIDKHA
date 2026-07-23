@@ -240,6 +240,10 @@ export default function App() {
     setCurrentView('creatorDashboard');
   };
 
+  const handleEditProfile = () => {
+    setCurrentView('creatorProfile');
+    window.scrollTo(0, 0);
+  };
 
   // ========= ROUTING & VIEW RENDERING =============
 
@@ -283,7 +287,11 @@ export default function App() {
   }
 
   if (currentView === 'creatorProfile') {
-    return <CreatorProfilePage onBack={handleBackToDashboard} isNewCreator={!creatorProfile} onProfileComplete={handleProfileComplete} />;
+    return <CreatorProfilePage 
+             existingProfile={creatorProfile} 
+             onProfileComplete={handleProfileComplete}
+             onBack={handleBackToCreatorDashboard} 
+           />;
   }
 
   if (currentView === 'creatorsDirectory') {
@@ -299,7 +307,11 @@ export default function App() {
   }
 
   if (currentView === 'creatorDashboard') {
-    return <CreatorDashboard onNavigateToCreateCourse={handleCreateCourseClick} />;
+    return <CreatorDashboard 
+             creatorProfile={creatorProfile} 
+             onNavigateToCreateCourse={handleCreateCourseClick} 
+             onEditProfile={handleEditProfile} 
+           />;
   }
 
   if (currentView === 'studentDashboard') {

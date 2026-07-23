@@ -1,234 +1,45 @@
+/* App.css - Global Styles */
 
+/* CSS Variables for consistent branding */
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --primary-light: #3b82f6;
-  --secondary: #0f172a;
-  --accent: #06b6d4;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --bg-dark: #0b1220;
-  --bg-darker: #050812;
-  --bg-card: #1e293b;
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --border: #334155;
-  --border-light: #475569;
+  --skilwhop-blue: #4A90E2;
+  --dark-bg: #121212;
+  --medium-bg: #1e1e1e;
+  --light-bg: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+  --border-color: #333333;
 }
 
-* {
+/* Base body styles */
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.app-shell {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0b1220 0%, #1a1f35 50%, #0d1117 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dark-bg);
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  overflow-x: hidden;
 }
 
-/* ===== HEADER ===== */
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1rem 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  backdrop-filter: blur(10px);
-  background-color: rgba(11, 18, 32, 0.7);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.brand {
-  font-size: 1.5rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: fit-content;
-  background: linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Global Search */
-.global-search-wrapper { flex: 1; max-width: 600px; }
-.global-search-input {
-    width: 100%;
-    padding: 0.8rem 1.2rem;
-    background-color: rgba(30, 41, 59, 0.7);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text-primary);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-.global-search-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    background-color: rgba(30, 41, 59, 1);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
-}
-
-.site-nav {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.site-nav a, .site-nav button {
-  color: var(--text-secondary);
+/* Remove default link styling */
+a {
+  color: var(--skilwhop-blue);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: color 0.3s ease;
-  background: none; border: none; cursor: pointer; 
 }
 
-.site-nav a:hover, .site-nav button:hover {
-  color: var(--text-primary);
+a:hover {
+  text-decoration: underline;
 }
 
-.button {
-  border: none;
-  border-radius: 12px;
-  padding: 0.7rem 1.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Basic styles for code blocks */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
-.button-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; }
-.button-primary:hover { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); transform: translateY(-2px); }
-
-.button-secondary {
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-.button-secondary:hover {
-  background-color: var(--border);
-}
-
-
-/* ===== HERO SECTION ===== */
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4rem;
-  max-width: 1600px;
-  margin: 4rem auto 0;
+/* Global container for centered content */
+.container {
   padding: 0 2rem;
-}
-
-.hero-copy {
-  flex: 2;
-  max-width: 650px;
-}
-
-.hero-panel {
-  flex: 1;
-}
-
-.eyebrow {
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.hero h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
-  line-height: 1.1;
-  background: linear-gradient(135deg, var(--text-primary) 60%, var(--text-muted) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1.5rem;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  max-width: 550px;
-  margin-bottom: 2.5rem;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.video-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(30, 41, 59, 0.2) 100%);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.video-preview {
-  background: var(--bg-dark);
-  height: 250px;
-  border-radius: 12px;
-  display: grid;
-  place-content: center;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.video-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.video-info strong {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.video-info span {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-/* ===== General Sections ===== */
-.section {
-  padding: 6rem 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-.section-heading {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.section-heading h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.section-heading p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto;
 }
